@@ -1,0 +1,48 @@
+apiVersion: apps/v1 
+kind: StatefulSet 
+metadata:
+  name: mysql-sts
+  namespace: roboshop 
+  labels:
+    app: mysql 
+    project: roboshop
+    tier: db
+spec: 
+  selector:
+    matchLabels:
+      app: mysql 
+      project: roboshop
+      tier: db 
+  serviceName: "redis" 
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:  
+      labels:
+        app: mysql 
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+      - name: mysql 
+        image: "narupallearun/mysql: {{ .Values.image.tag }}"
+        # args:
+        # - "--ignore-db-dir=lost+fount"
+        envFrom:
+        - configMapRef:
+            name:  mysql-configmap
+        - secretRef:
+            name: mysql-secrets 
+        volumeMounts:
+          metadata:
+          - name: mysql-data 
+            mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs-sc-for-roboshop"
+      resources:
+        requests:
+          storage: 1Gi 
+    

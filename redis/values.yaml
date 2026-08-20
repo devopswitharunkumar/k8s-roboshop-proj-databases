@@ -1,0 +1,2 @@
+replicaCount: 2
+storageClassName: "ebs-sc-for-roboshop"

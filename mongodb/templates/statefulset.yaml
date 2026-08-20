@@ -1,0 +1,43 @@
+apiVersion: apps/v1 
+kind: StatefulSet
+metadata:
+  name: mongodb-sts
+  namespace: roboshop
+  labels:
+    app: mongodb
+    project: roboshop
+    tier: db
+spec:
+  service: "mongodb"
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: mongodb
+      project: roboshop
+      tier: db
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+      - name: "{{ .Values.containerName }}"
+        image: "narupallearun/mongodb: {{ .Values.image.tag }}"
+        volumeMounts:
+        - name: mongodb-data    
+          mountPath: /data/db
+    
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "{{ .Values.vct.storageClassName }}"
+      resources:
+        requests:
+          storage: 1Gi {{ .Values.vct.storage}}
+
+
+

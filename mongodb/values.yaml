@@ -1,0 +1,7 @@
+replicaCount: 2
+containerName: "mongodb"
+image:
+  tag: v1
+vct:
+  storage: 1Gi
+  storageClassName: "ebs-sc-for-roboshop"

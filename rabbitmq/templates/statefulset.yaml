@@ -1,0 +1,46 @@
+apiVersion: apps/v1 
+kind: StatefulSet 
+metadata:
+  name: rabbitmq-sts
+  namespace: roboshop 
+  labels:
+    app: rabbitmq 
+    project: roboshop
+    tier: db
+spec: 
+  selector:
+    matchLabels:
+      app: rabbitmq 
+      project: roboshop
+      tier: db 
+  serviceName: "redis" 
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:  
+      labels:
+        app: rabbitmq 
+        project: roboshop
+        tier: db
+    spec:
+      containers:
+      - name: rabbitmq 
+        image: rabbitmq
+        envFrom:
+        - configMapRef:
+            name:  rabbitmq-configmap
+        - secretRef:
+            name: rabbitmq-secrets 
+        volumeMounts:
+          metadata:
+          - name: rabbitmq-data 
+            mountPath: /var/lib/rabbitmq
+  volumeClaimTemplates:
+  - metadata:
+      name: rabbitmq-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "ebs-sc-for-roboshop"
+      resources:
+        requests:
+          storage: 1Gi 
+    
