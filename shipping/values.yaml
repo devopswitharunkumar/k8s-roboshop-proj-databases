@@ -1,0 +1,5 @@
+replicaCount: 2
+image:  
+  tag: v1 
+hpa:
+  averageUtilization: 70

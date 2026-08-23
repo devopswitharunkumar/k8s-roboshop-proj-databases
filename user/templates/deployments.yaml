@@ -25,6 +25,13 @@ spec:
       - name: user
         image: "narupallearun/user: {{ .Values.image.tag }}"
         imagePullPolicy: Always
+        resources:
+          requests: 
+            cpu: "50m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m"
+            memory: "256Mi"
         envFrom:
         - configMapRef: 
             name: user-config

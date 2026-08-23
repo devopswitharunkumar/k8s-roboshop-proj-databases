@@ -1,12 +1,12 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: user-hpa
+  name: shipping-hpa
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: user-ds
+    name: shipping-ds
   minReplicas: 1
   maxReplicas: 10
   metrics:

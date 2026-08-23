@@ -1,37 +1,37 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: catalogue-ds
+  name: shipping-ds
   namespace: roboshop
   labels:
-    app: catalogue
+    app: shipping
     project: roboshop
     tier: app
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: catalogue
+      app: shipping
       project: roboshop
       tier: app
   template:
     metadata:
       labels:
-        app: catalogue
+        app: shipping
         project: roboshop
         tier: app
     spec:
       containers:
-      - name: catalogue
-        image: "narupallearun/catalogue: {{ .Values.image.tag }}"
+      - name: shipping
+        image: "narupallearun/shipping: {{ .Values.image.tag }}"
         imagePullPolicy: Always
         resources:
           requests:
-            cpu: "50m"
-            memory: "128Mi"
+            cpu: "150m"
+            memory: 256Mi
           limits:
-            cpu: "100m"
-            memory: "256Mi"
+            cpu: "300m"
+            memory: "512Mi"
         envFrom:
         - configMapRef: 
-            name: catalogue-config
+            name: shipping-config
