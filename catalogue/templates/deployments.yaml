@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue-ds
+  namespace: roboshop
+  labels:
+    app: catalogue
+    project: roboshop
+    tier: app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: catalogue
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels:
+        app: catalogue
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: catalogue
+        image: "narupallearun/catalogue: {{ .Values.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef: 
+            name: catalogue-config

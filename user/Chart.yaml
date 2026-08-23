@@ -1,0 +1,5 @@
+apiVersion: v1 
+name: user 
+description: "User Application for RoboShop Project"
+version: 1.0.0  #chart version
+appVersion: v1    #application version

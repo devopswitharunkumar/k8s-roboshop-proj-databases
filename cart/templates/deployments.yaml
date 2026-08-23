@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cart-ds
+  namespace: roboshop
+  labels:
+    app: cart
+    project: roboshop
+    tier: app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: cart
+      project: roboshop
+      tier: app
+  template:
+    metadata:
+      labels:
+        app: cart
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: cart
+        image: "narupallearun/cart: {{ .Values.image.tag }}"
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef: 
+            name: cart-config
